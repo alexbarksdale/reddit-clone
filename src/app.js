@@ -1,13 +1,20 @@
+require('./data/reddit-db');
 const express = require('express');
-const { urlencoded } = require('body-parser');
+const { json, urlencoded } = require('body-parser');
+const expressValidator = require('express-validator');
 const exphbs = require('express-handlebars');
 const handlebars = require('handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 
+const homeRouter = require('./routes/home');
+const postsRouter = require('./routes/posts');
+
 const app = express();
 
 // Middlewares
+app.use(json());
 app.use(urlencoded({ extended: true }));
+app.use(expressValidator());
 
 // View engine
 const hbs = exphbs.create({
@@ -18,9 +25,9 @@ const hbs = exphbs.create({
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-app.get('/', (_, res) => {
-    res.render('layouts/main', {});
-});
+// Routes
+app.use(homeRouter);
+app.use(postsRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
