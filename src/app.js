@@ -18,6 +18,10 @@ const hbs = exphbs.create({
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
+app.get('/', (_, res) => {
+    res.render('layouts/main', {});
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Reddit clone listening on port: ${PORT}`);
