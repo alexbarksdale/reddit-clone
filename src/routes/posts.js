@@ -4,12 +4,23 @@ const Post = require('../models/post');
 
 const router = express.Router();
 
-// GET
+// ==== GET ====
 router.get('/posts/new', (_, res) => {
     res.render('posts-new', {});
 });
 
-// POST
+router.get('/posts/:id', function (req, res) {
+    // LOOK UP THE POST
+    Post.findById(req.params.id)
+        .then((post) => {
+            res.render('posts-show', { post });
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
+});
+
+// ==== POST ====
 router.post('/posts/new', async (req, res) => {
     // Create a new post
     const post = new Post(req.body);

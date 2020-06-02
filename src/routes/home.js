@@ -4,6 +4,7 @@ const Post = require('../models/post');
 
 const router = express.Router();
 
+// ==== GET ====
 router.get('/', (_, res) => {
     Post.find({})
         .then((posts) => {
