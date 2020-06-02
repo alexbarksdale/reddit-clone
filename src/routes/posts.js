@@ -16,9 +16,7 @@ router.post('/posts/new', async (req, res) => {
 
     try {
         // Save post
-        await post.save(() => {
-            return res.redirect(`/`);
-        });
+        await post.save(() => res.redirect('/'));
     } catch (err) {
         throw new Error('Error in routes/posts.js', err);
     }
