@@ -10,6 +10,11 @@ router.get('/sign-up', (_, res) => {
     res.render('sign-up');
 });
 
+router.get('/logout', (_, res) => {
+    res.clearCookie('nToken');
+    res.redirect('/');
+});
+
 // POST
 router.post('/sign-up', (req, res) => {
     // Create User and JWT
