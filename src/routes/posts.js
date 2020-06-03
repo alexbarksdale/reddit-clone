@@ -20,6 +20,16 @@ router.get('/posts/:id', function (req, res) {
         });
 });
 
+router.get('/n/:subreddit', function (req, res) {
+    Post.find({ subreddit: req.params.subreddit })
+        .then((posts) => {
+            res.render('posts-index', { posts });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
 // ==== POST ====
 router.post('/posts/new', async (req, res) => {
     // Create a new post
