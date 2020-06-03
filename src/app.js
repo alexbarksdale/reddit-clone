@@ -8,6 +8,7 @@ const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-ac
 
 const homeRouter = require('./routes/home');
 const postsRouter = require('./routes/posts');
+const commentRouter = require('./routes/comments');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.set('view engine', 'handlebars');
 // Routes
 app.use(homeRouter);
 app.use(postsRouter);
+app.use(commentRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
