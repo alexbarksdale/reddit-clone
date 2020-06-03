@@ -5,10 +5,12 @@ const Post = require('../models/post');
 const router = express.Router();
 
 // ==== GET ====
-router.get('/', (_, res) => {
+router.get('/', (req, res) => {
+    const currentUser = req.user;
+
     Post.find({})
         .then((posts) => {
-            res.render('posts-index', { posts });
+            res.render('posts-index', { posts, currentUser });
         })
         .catch((err) => {
             console.log(err.message);

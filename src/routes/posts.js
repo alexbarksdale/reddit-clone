@@ -33,14 +33,14 @@ router.get('/n/:subreddit', function (req, res) {
 
 // ==== POST ====
 router.post('/posts/new', async (req, res) => {
-    // Create a new post
-    const post = new Post(req.body);
+    if (req.user) {
+        const post = new Post(req.body);
 
-    try {
-        // Save post
-        await post.save(() => res.redirect('/'));
-    } catch (err) {
-        throw new Error('Error in routes/posts.js', err);
+        post.save(function () {
+            return res.redirect('/');
+        });
+    } else {
+        return res.status(401); // UNAUTHORIZED
     }
 });
 

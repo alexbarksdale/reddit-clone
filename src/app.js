@@ -7,7 +7,8 @@ const exphbs = require('express-handlebars');
 const handlebars = require('handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
+
+const checkAuth = require('./middleware/checkAuth');
 
 const homeRouter = require('./routes/home');
 const postsRouter = require('./routes/posts');
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use(expressValidator());
+app.use(checkAuth);
 
 // View engine
 const hbs = exphbs.create({
