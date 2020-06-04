@@ -1,6 +1,5 @@
 const express = require('express');
 
-const User = require('../models/user');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
 
@@ -12,14 +11,15 @@ router.post('/posts/:postId/comments', function (req, res) {
 
     comment
         .save()
-        .then((comment) => {
+        .then(() => {
             return Post.findById(req.user._id);
         })
         .then((post) => {
+            console.log('POSTS', post);
             post.comments.unshift(comment);
             return post.save();
         })
-        .then((post) => {
+        .then(() => {
             res.redirect('/');
         })
         .catch((err) => {
