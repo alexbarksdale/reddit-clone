@@ -8,19 +8,17 @@ const router = express.Router();
 router.post('/posts/:postId/comments', function (req, res) {
     const comment = new Comment(req.body);
     comment.author = req.user._id;
-
     comment
         .save()
-        .then(() => {
-            return Post.findById(req.user._id);
+        .then((comment) => {
+            return Promise.all([Post.findById(req.params.postId)]);
+        })
+        .then(([post, user]) => {
+            post.comments.unshift(comment);
+            return Promise.all([post.save()]);
         })
         .then((post) => {
-            console.log('POSTS', post);
-            post.comments.unshift(comment);
-            return post.save();
-        })
-        .then(() => {
-            res.redirect('/');
+            res.redirect(`/posts/${req.params.postId}`);
         })
         .catch((err) => {
             console.log(err);

@@ -13,10 +13,9 @@ router.get('/posts/new', (req, res) => {
 
 router.get('/posts/:id', function (req, res) {
     const currentUser = req.user;
-
     Post.findById(req.params.id)
-        .populate({ path: 'comments', populate: { path: 'author' } })
-        .populate('author')
+        .populate('comments')
+        .lean()
         .then((post) => {
             res.render('posts-show', { post, currentUser });
         })
@@ -28,7 +27,7 @@ router.get('/posts/:id', function (req, res) {
 router.get('/n/:subreddit', function (req, res) {
     const currentUser = req.user;
     Post.find({ subreddit: req.params.subreddit })
-        .populate('author')
+        .lean()
         .then((posts) => {
             res.render('posts-index', { posts, currentUser });
         })
@@ -44,7 +43,7 @@ router.post('/posts/new', (req, res) => {
         post.author = req.user._id;
 
         post.save()
-            .then((post) => {
+            .then(() => {
                 return User.findById(req.user._id);
             })
             .then((user) => {
