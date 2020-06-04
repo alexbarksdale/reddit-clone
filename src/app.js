@@ -13,6 +13,7 @@ const checkAuth = require('./middleware/checkAuth');
 const homeRouter = require('./routes/home');
 const postsRouter = require('./routes/posts');
 const commentRouter = require('./routes/comments');
+const replyRouter = require('./routes/replies');
 const authRouter = require('./routes/auth');
 
 const app = express();
@@ -35,9 +36,10 @@ app.set('view engine', 'handlebars');
 
 // Routes
 app.use(homeRouter);
+app.use(authRouter);
 app.use(postsRouter);
 app.use(commentRouter);
-app.use(authRouter);
+app.use(replyRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

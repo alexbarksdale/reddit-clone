@@ -10,7 +10,7 @@ router.post('/posts/:postId/comments', function (req, res) {
     comment.author = req.user._id;
     comment
         .save()
-        .then((comment) => {
+        .then(() => {
             return Promise.all([Post.findById(req.params.postId)]);
         })
         .then(([post, user]) => {

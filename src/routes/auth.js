@@ -57,9 +57,6 @@ router.post('/login', (req, res) => {
 router.post('/sign-up', (req, res) => {
     // Create User and JWT
     const user = new User(req.body);
-
-    console.log('FIRED');
-
     user.save()
         .then((user) => {
             const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '60 days' });
